@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import './App.css'
 
@@ -8,7 +8,12 @@ import NetSupervisionCaseStudy from './components/NetSupervisionCaseStudy'
 
 import SmartKokusaiCaseStudy from './components/SmartKokusaiCaseStudy'
 
-import ContactPage from './components/ContactPage'
+import ResourceLinks from './components/ResourceLinks'
+import { RESOURCES } from './data/resources'
+
+
+import CertificationsCarousel from './components/CertificationsCarousel'
+   import ContactSection from './components/ContactPage'
 
 
 
@@ -34,29 +39,85 @@ import EmergencyResponseCaseStudy
 
 
 
+
+
 import {
-
   FiGithub,
-
   FiLinkedin,
-
   FiMail,
-
   FiDownload,
-
   FiArrowDown,
-
   FiMapPin,
-
   FiBookOpen,
-
   FiGlobe,
-
   FiCpu,
-
-  FiArrowUpRight
-
+  FiArrowUpRight,
+  FiCode,
+  FiTool,
+  FiDatabase,
+  FiActivity,
+  FiLayers,
+  FiTerminal,
+  FiRadio,
+  FiSearch,
+  FiRepeat,
+  FiZap,
+  FiEye,
+  FiBox,
+  FiServer,
+  FiClipboard,
+  FiBarChart2,
+  FiShare2,
+  FiCheckSquare,
+  FiAlertCircle,
+  FiSliders,
+  FiWifi,
+  FiSend,
+  FiKey,
+  FiShield,
+  FiLock,
+  FiList,
+  FiMonitor,
+  FiGitBranch
 } from 'react-icons/fi'
+
+import {
+  SiPython,
+  SiFastapi,
+  SiFlask,
+  SiDocker,
+  SiGit,
+  SiGithub,
+  SiGitlab,
+  SiJira,
+  SiPostman,
+  SiGrafana,
+  SiInfluxdb,
+  SiPostgresql,
+  SiSqlite,
+  SiTensorflow,
+  SiKeras,
+  SiScikitlearn,
+  SiPandas,
+  SiNumpy,
+  SiWireshark,
+  SiLinux,
+  SiSocketdotio,
+  SiMqtt,
+  SiEspressif,
+  SiSqlalchemy,
+  SiCisco,
+  SiAnsible,
+  SiGnubash,
+  SiKalilinux,
+  SiHtml5,
+  SiCss,
+  SiJavascript,
+  SiReact,
+  SiBootstrap,
+  SiVite,
+  SiPytest
+} from 'react-icons/si'
 
 
 
@@ -217,81 +278,266 @@ const FEATURED_PROJECTS = PROJECTS.filter(project => project.featured)
 const ACADEMIC_PROJECTS = PROJECTS.filter(project => project.academic)
 
 
-const CERTIFICATIONS = [
 
+
+
+
+const EDUCATION = [
   {
-
-    name: 'Cisco Certified DevNet Associate',
-
-    issuer: 'Cisco',
-
+    id: 'enit',
     year: '2026',
-
-    url: ''
-
+    shortTitle: 'Engineering Degree',
+    shortSchool: 'ENIT',
+    title: 'Telecommunications Engineering Degree',
+    school: 'National Engineering School of Tunis (ENIT)',
+    period: '2023 — 2026',
+    description:
+      'My engineering studies focused on telecommunications networks, automation and software validation, with practical work in Python, network protocols, testing and connected systems.',
+    details:
+      'I developed a strong interest in roles combining network engineering with automation, validation and troubleshooting.',
+    mark: 'ENIT'
   },
 
+
   {
-
-    name: 'CCNA: Switching, Routing, and Wireless Essentials',
-
-    issuer: 'Cisco Networking Academy',
-
-    year: '2026',
-
-    url: ''
-
+    id: 'ipeim',
+    year: '2023',
+    shortTitle: 'Pre-Engineering',
+    shortSchool: 'IPEIM',
+    title: 'Pre-Engineering Program in Mathematics & Physics',
+    school: 'Preparatory Institute for Engineering Studies of Monastir (IPEIM)',
+    period: '2021 — 2023',
+    description:
+      'Two-year Pre-Engineering Program in Mathematics and Physics, with intensive coursework in mathematics, physics and core engineering fundamentals.',
+    details:
+      'It strengthened my analytical thinking, problem-solving skills and scientific foundation before entering engineering school.',
+    mark: 'IPEIM'
   },
-
   {
-
-    name: 'CCNA: Introduction to Networks',
-
-    issuer: 'Cisco Networking Academy',
-
-    year: '2025',
-
-    url: ''
-
-  },
-
-  {
-
-    name: 'Ethical Hacker',
-
-    issuer: 'Cisco',
-
-    year: '2025',
-
-    url: ''
-
-  },
-
-  {
-
-    name: 'AWS Academy Graduate: Cloud Foundations',
-
-    issuer: 'Amazon Web Services',
-
-    year: '2025',
-
-    url: ''
-
-  },
-
-  {
-
-    name: 'Building Transformer-Based NLP Applications',
-
-    issuer: 'NVIDIA',
-
-    year: '2025',
-
-    url: ''
-
+    id: 'bac',
+    year: '2021',
+    shortTitle: 'Mathematics Baccalaureate',
+    shortSchool: 'Mathematics',
+    title: 'Baccalaureate in Mathematics',
+    school: 'Tunisian Baccalaureate',
+    period: '2021',
+    description:
+      'Mathematics-focused secondary education with a strong foundation in analytical reasoning and scientific problem-solving.',
+    details: '',
+    mark: 'BAC'
   }
-
 ]
+
+const SKILL_GROUPS = [
+  {
+    title: 'Network Engineering',
+    icon: FiGlobe,
+    items: [
+      { name: 'IPv4 / IPv6', icon: FiGlobe, color: '#2563eb' },
+      { name: 'TCP / UDP', icon: FiRepeat, color: '#0891b2' },
+      { name: 'DS-Lite', icon: FiLayers, color: '#7c3aed' },
+      { name: 'PCP', icon: FiSend, color: '#2563eb' },
+      { name: 'UPnP', icon: FiWifi, color: '#0891b2' },
+      { name: 'NAT / CGNAT', icon: FiShare2, color: '#ea580c' },
+      { name: 'Routing (OSPF/BGP)', icon: FiActivity, color: '#16a34a' },
+      { name: 'VLAN / STP', icon: FiLayers, color: '#7c3aed' },
+      { name: 'Cisco IOS', icon: SiCisco, color: '#049fd9' },
+      { name: 'Socket Programming', icon: FiTerminal, color: '#475569' },
+      { name: 'Scapy', icon: FiZap, color: '#ca8a04' },
+      { name: 'Wireshark', icon: SiWireshark, color: '#1679a7' },
+      { name: 'tcpdump', icon: FiSearch, color: '#475569' },
+      { name: 'GNS3', icon: FiServer, color: '#2563eb' }
+    ]
+  },
+  {
+    title: 'Network Automation',
+    icon: FiZap,
+    items: [
+      { name: 'Python', icon: SiPython, color: '#3776ab' },
+      { name: 'Netmiko', icon: FiTerminal, color: '#0891b2' },
+      { name: 'Paramiko', icon: FiKey, color: '#475569' },
+      { name: 'Ansible', icon: SiAnsible, color: '#ee0000' },
+      { name: 'Jinja2', icon: FiCode, color: '#b41717' },
+      { name: 'Bash', icon: SiGnubash, color: '#111827' },
+      { name: 'SSH / Telnet', icon: FiTerminal, color: '#475569' },
+      { name: 'JSON', icon: FiCode, color: '#ca8a04' },
+      { name: 'Config Backup & Rollback', icon: FiDatabase, color: '#7c3aed' },
+      { name: 'Regex Parsing', icon: FiSearch, color: '#ea580c' },
+      { name: 'Cisco DevNet', icon: SiCisco, color: '#049fd9' }
+    ]
+  },
+  {
+    title: 'Network Security',
+    icon: FiShield,
+    items: [
+      { name: 'Firewalls', icon: FiShield, color: '#dc2626' },
+      { name: 'VPN', icon: FiLock, color: '#2563eb' },
+      { name: 'WPA2 / WPA3', icon: FiWifi, color: '#0891b2' },
+      { name: 'ACL', icon: FiList, color: '#7c3aed' },
+      { name: 'Kali Linux', icon: SiKalilinux, color: '#557c94' },
+      { name: 'Aircrack-ng', icon: FiWifi, color: '#dc2626' },
+      { name: 'Ettercap', icon: FiRadio, color: '#7c3aed' },
+      { name: 'Ethical Hacking', icon: FiTool, color: '#dc2626' },
+      { name: 'Intrusion Detection', icon: FiAlertCircle, color: '#ea580c' }
+    ]
+  },
+  {
+    title: 'Backend & Software',
+    icon: FiCode,
+    items: [
+      { name: 'FastAPI', icon: SiFastapi, color: '#009688' },
+      { name: 'Flask', icon: SiFlask, color: '#111827' },
+      { name: 'REST APIs', icon: FiShare2, color: '#0891b2' },
+      { name: 'Socket.IO', icon: SiSocketdotio, color: '#111827' },
+      { name: 'SQLAlchemy', icon: SiSqlalchemy, color: '#d71f00' }
+    ]
+  },
+  {
+    title: 'Web Development',
+    icon: FiMonitor,
+    items: [
+      { name: 'HTML5', icon: SiHtml5, color: '#e34f26' },
+      { name: 'CSS3', icon: SiCss, color: '#1572b6' },
+      { name: 'JavaScript', icon: SiJavascript, color: '#ca8a04' },
+      { name: 'React', icon: SiReact, color: '#0891b2' },
+      { name: 'Bootstrap', icon: SiBootstrap, color: '#7952b3' },
+      { name: 'Vite', icon: SiVite, color: '#8b5cf6' }
+    ]
+  },
+  {
+    title: 'QA & Testing',
+    icon: FiCheckSquare,
+    items: [
+      { name: 'pytest', icon: SiPytest, color: '#0a9edc' },
+      { name: 'Postman', icon: SiPostman, color: '#ff6c37' },
+      { name: 'Regression Testing', icon: FiCheckSquare, color: '#16a34a' },
+      { name: 'API Testing', icon: FiClipboard, color: '#0891b2' },
+      { name: 'Debugging', icon: FiAlertCircle, color: '#dc2626' },
+      { name: 'Jira', icon: SiJira, color: '#0052cc' }
+    ]
+  },
+  {
+    title: 'DevOps & Version Control',
+    icon: FiGitBranch,
+    items: [
+      { name: 'Git', icon: SiGit, color: '#f05032' },
+      { name: 'GitHub', icon: SiGithub, color: '#111827' },
+      { name: 'GitLab', icon: SiGitlab, color: '#fc6d26' },
+      { name: 'CI/CD', icon: FiRepeat, color: '#16a34a' },
+      { name: 'Docker', icon: SiDocker, color: '#2496ed' },
+      { name: 'Linux', icon: SiLinux, color: '#111827' }
+    ]
+  },
+  {
+    title: 'Data, Monitoring & IoT',
+    icon: FiDatabase,
+    items: [
+      { name: 'PostgreSQL', icon: SiPostgresql, color: '#336791' },
+      { name: 'SQLite', icon: SiSqlite, color: '#003b57' },
+      { name: 'InfluxDB', icon: SiInfluxdb, color: '#22adf6' },
+      { name: 'Grafana', icon: SiGrafana, color: '#f46800' },
+      { name: 'MQTT', icon: SiMqtt, color: '#660066' },
+      { name: 'ESP32', icon: SiEspressif, color: '#e7352c' }
+    ]
+  },
+  {
+    title: 'Data Science & AI',
+    icon: FiCpu,
+    items: [
+      { name: 'Pandas', icon: SiPandas, color: '#150458' },
+      { name: 'NumPy', icon: SiNumpy, color: '#013243' },
+      { name: 'Scikit-learn', icon: SiScikitlearn, color: '#f7931e' },
+      { name: 'TensorFlow', icon: SiTensorflow, color: '#ff6f00' },
+      { name: 'Keras', icon: SiKeras, color: '#d00000' },
+      { name: 'CNN / LSTM', icon: FiLayers, color: '#7c3aed' },
+      { name: 'NLP', icon: FiCode, color: '#ea580c' },
+      { name: 'Computer Vision', icon: FiEye, color: '#4f46e5' }
+    ]
+  }
+]
+
+/* Pastilles qui défilent */
+const MARQUEE_SKILLS = [
+  { name: 'Python', icon: SiPython, color: '#3776ab' },
+  { name: 'Netmiko', icon: FiTerminal, color: '#0891b2' },
+  { name: 'Paramiko', icon: FiKey, color: '#475569' },
+  { name: 'Ansible', icon: SiAnsible, color: '#ee0000' },
+  { name: 'pytest', icon: SiPytest, color: '#0a9edc' },
+  { name: 'Postman', icon: SiPostman, color: '#ff6c37' },
+  { name: 'Wireshark', icon: SiWireshark, color: '#1679a7' },
+  { name: 'Docker', icon: SiDocker, color: '#2496ed' },
+  { name: 'Git', icon: SiGit, color: '#f05032' },
+  { name: 'GitHub', icon: SiGithub, color: '#111827' },
+  { name: 'GitLab', icon: SiGitlab, color: '#fc6d26' },
+  { name: 'FastAPI', icon: SiFastapi, color: '#009688' },
+  { name: 'Flask', icon: SiFlask, color: '#111827' },
+  { name: 'React', icon: SiReact, color: '#0891b2' },
+  { name: 'JavaScript', icon: SiJavascript, color: '#ca8a04' },
+  { name: 'HTML5', icon: SiHtml5, color: '#e34f26' },
+  { name: 'CSS3', icon: SiCss, color: '#1572b6' },
+  { name: 'Bootstrap', icon: SiBootstrap, color: '#7952b3' }
+]
+
+const EXPERIENCES = [
+  {
+    id: 'telnet',
+    logo: telnetLogo,
+    company: 'TELNET',
+    role: 'Final-Year Engineering Intern',
+    domain: 'Network Validation · Software Development · Test Automation · AI',
+    date: 'Feb 2026 — Jun 2026',
+    summary:
+      'Designed and developed a distributed supervision and automated validation platform for Home Gateways operating in IPv6 and DS-Lite environments.',
+    highlights: [
+      'Built a Flask / Socket.IO platform orchestrating distributed PCP and UPnP tests through LAN agents.',
+      'Automated 13 controlled PCP error scenarios, reducing the campaign from 6h30 to 7 min.',
+      'Implemented double validation: protocol responses compared with Home Gateway state retrieved via Telnet.',
+      'Added a regression engine and an AI-assisted debug pipeline, cutting validation and debug time by about 98%.'
+    ],
+    tags: ['Python', 'Flask', 'SQLite', 'Socket.IO', 'IPv6', 'DS-Lite', 'PCP', 'UPnP', 'Scapy', 'Wireshark', 'Linux'],
+    caseLabel: 'View NetSupervision Case Study'
+  },
+  {
+    id: 'kokusai',
+    logo: smartKokusaiLogo,
+    company: 'Smart Kokusai',
+    role: 'Engineering Intern',
+    domain: 'Software Development · Data · AI · IoT · CSR Monitoring',
+    date: 'Jul 2025 — Sep 2025',
+    summary:
+      'Developed a data-driven CSR monitoring platform for collecting, processing and visualizing environmental and social company KPIs.',
+    highlights: [
+      'Developed FastAPI and PostgreSQL REST APIs for CSR KPIs, forms and role-based access.',
+      'Built an ESP32 → MQTT → InfluxDB → Grafana pipeline with thresholds and alerts.',
+      'Integrated OCR extraction of water and electricity bills into structured KPI data.'
+    ],
+    tags: ['Python', 'FastAPI', 'PostgreSQL', 'ESP32', 'MQTT', 'InfluxDB', 'Grafana', 'OCR', 'RBAC'],
+    caseLabel: 'View CSR Platform Case Study'
+  },
+  {
+    id: 'softifi',
+    logo: softifiLogo,
+    company: 'SOFTIFI',
+    role: 'IoT Engineering Intern',
+    domain: 'Smart Lighting · IoT Conception · Energy Efficiency',
+    date: 'Jul 2024 — Aug 2024',
+    summary:
+      'Contributed to the conception of a smart lighting solution for the Smart Center in Zarzis to address excessive electricity usage.',
+    highlights: [
+      'Studied the integration of sensors and connected devices for automated lighting control.',
+      'Contributed to defining the IoT architecture and system communication flow.',
+      'Focused on reducing energy consumption based on usage and environmental conditions.'
+    ],
+    tags: ['IoT', 'Smart Lighting', 'Sensors', 'ESP32', 'Embedded Systems', 'Energy Efficiency']
+  }
+]
+
+const onActivate = action => event => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault()
+    action()
+  }
+}
 
 
 
@@ -300,6 +546,28 @@ function App() {
 
 
   const [currentPage, setCurrentPage] = useState('portfolio')
+
+  const [activeEducation, setActiveEducation] = useState('enit')
+
+  const selectedEducation =
+    EDUCATION.find(education => education.id === activeEducation) ?? EDUCATION[0]
+
+  const dynamicLines = [
+    { prefix: 'Passionate about', value: 'Network Automation' },
+    { prefix: 'Focused on', value: 'Test Automation' },
+    { prefix: 'Building with', value: 'Python Engineering' },
+    { prefix: 'Exploring', value: 'AI-Assisted Systems' }
+  ]
+
+  const [dynamicIndex, setDynamicIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDynamicIndex(current => (current + 1) % dynamicLines.length)
+    }, 2300)
+
+    return () => clearInterval(interval)
+  }, [])
 
 
 
@@ -777,21 +1045,10 @@ const openNetPilot = () => {
 
 
 
-          <button
-
-            type="button"
-
-            className="nav-contact-link"
-
-            onClick={openContact}
-
-          >
-
+          <a href="#contact" className="nav-contact-link">
             Contact
-
             <FiArrowUpRight />
-
-          </button>
+          </a>
 
 
 
@@ -837,6 +1094,11 @@ const openNetPilot = () => {
 
           <div className="hero-left">
 
+            <div className="hero-status">
+              <span className="availability-dot"></span>
+              Open to opportunities
+            </div>
+
 
 
             <p className="hero-eyebrow">
@@ -855,24 +1117,17 @@ const openNetPilot = () => {
 
             </h1>
 
+            <h2 className="hero-role">
+              Network & Test Automation Engineer
+            </h2>
 
-
-
-
-            <h2>Network & Test Automation Engineer</h2>
-
-
-
-            <div className="hero-specialties">
-
-              <span>Python</span>
-
-              <span>QA Automation</span>
-
-              <span>DevOps</span>
-
-              <span>Backend</span>
-
+            <div
+              className="hero-dynamic-line"
+              key={dynamicIndex}
+            >
+              <span>{dynamicLines[dynamicIndex].prefix}</span>
+              <strong>{dynamicLines[dynamicIndex].value}</strong>
+              <span className="typing-cursor">|</span>
             </div>
 
 
@@ -1084,26 +1339,6 @@ const openNetPilot = () => {
                 className="profile-image"
 
               />
-
-
-
-
-
-              <div className="availability">
-
-
-
-                <span className="availability-dot">
-
-                </span>
-
-
-
-                Open to opportunities
-
-
-
-              </div>
 
 
 
@@ -1423,29 +1658,6 @@ const openNetPilot = () => {
 
 
 
-            <a
-
-              href="/Insaf_Fares_CV.pdf"
-
-              download
-
-              className="btn btn-secondary about-cv"
-
-            >
-
-
-
-              <FiDownload />
-
-
-
-              Download CV
-
-
-
-            </a>
-
-
 
 
 
@@ -1512,6 +1724,132 @@ const openNetPilot = () => {
         </div>
 
 
+
+
+        {/* =====================================================
+            EDUCATIONAL JOURNEY
+        ===================================================== */}
+
+        <div className="education-journey">
+
+          <div className="education-heading">
+
+            <p className="section-eyebrow">
+              Education
+            </p>
+
+            <h3>
+              Educational Journey
+            </h3>
+
+            <p>
+              From a strong mathematics and physics foundation to
+              telecommunications engineering focused on networks,
+              automation and validation.
+            </p>
+
+          </div>
+
+
+          <div className="education-layout">
+
+            <div
+              className="education-tabs"
+              role="tablist"
+              aria-label="Education timeline"
+            >
+
+              {EDUCATION.map((education) => (
+
+                <button
+                  key={education.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeEducation === education.id}
+                  className={
+                    activeEducation === education.id
+                      ? 'education-tab education-tab-active'
+                      : 'education-tab'
+                  }
+                  onClick={() => setActiveEducation(education.id)}
+                >
+
+                  <strong>
+                    {education.year}
+                  </strong>
+
+                  <div>
+                    <span>
+                      {education.shortTitle}
+                    </span>
+
+                    <small>
+                      {education.shortSchool}
+                    </small>
+                  </div>
+
+                  <i aria-hidden="true"></i>
+
+                </button>
+
+              ))}
+
+            </div>
+
+
+            <article
+              key={selectedEducation.id}
+              className="education-detail"
+            >
+
+              <div className="education-accent"></div>
+
+              <div className="education-detail-top">
+
+                <div className="education-school">
+
+                  <div
+                    className="education-mark"
+                    aria-hidden="true"
+                  >
+                    {selectedEducation.mark}
+                  </div>
+
+                  <div>
+                    <h4>
+                      {selectedEducation.title}
+                    </h4>
+
+                    <p>
+                      {selectedEducation.school}
+                    </p>
+                  </div>
+
+                </div>
+
+                <span className="education-period">
+                  {selectedEducation.period}
+                </span>
+
+              </div>
+
+              <div className="education-divider"></div>
+
+              <p className="education-description">
+                {selectedEducation.description}
+              </p>
+
+              {selectedEducation.details && (
+                <p className="education-details">
+                  {selectedEducation.details}
+                </p>
+              )}
+
+            </article>
+
+          </div>
+
+        </div>
 
       </section>
 
@@ -1581,1076 +1919,80 @@ const openNetPilot = () => {
 
         </div>
 
-
-
-
-
-
-
         <div className="experience-list">
-
-
-
-
-
-          {/* =================================================
-
-              TELNET
-
-          ================================================= */}
-
-
-
-          <article
-
-
-
-            className="
-
-              experience-card
-
-              experience-card-clickable
-
-            "
-
-
-
-            onClick={openNetSupervision}
-
-
-
-            role="button"
-
-
-
-            tabIndex={0}
-
-
-
-            aria-label="Open NetSupervision case study"
-
-
-
-            onKeyDown={(event) => {
-
-
-
-              if (
-
-                event.key === 'Enter' ||
-
-                event.key === ' '
-
-              ) {
-
-
-
-                event.preventDefault()
-
-
-
-                openNetSupervision()
-
-
-
-              }
-
-
-
-            }}
-
-
-
-          >
-
-
-
-
-
-            <div className="experience-top">
-
-
-
-
-
-              <div className="experience-company">
-
-
-
-
-
-                <img
-
-                  src={telnetLogo}
-
-                  alt="TELNET"
-
-                  className="company-logo"
-
-                />
-
-
-
-
-
-                <div>
-
-
-
-                  <p className="company-name">
-
-                    TELNET
-
-                  </p>
-
-
-
-
-
-                  <h3>
-
-                    Final-Year Engineering Intern
-
-                  </h3>
-
-
-
-
-
-                  <p className="experience-domain">
-
-
-
-                    Network Validation · Software Development ·
-
-                    Test Automation · AI
-
-
-
-                  </p>
-
-
-
+          {EXPERIENCES.map(exp => {
+            const open = { telnet: openNetSupervision, kokusai: openSmartKokusai }[exp.id]
+
+            return (
+              <article
+                key={exp.id}
+                className={open ? 'experience-card experience-card-clickable' : 'experience-card'}
+                onClick={open}
+                role={open ? 'button' : undefined}
+                tabIndex={open ? 0 : undefined}
+                aria-label={open ? `Open ${exp.company} case study` : undefined}
+                onKeyDown={open ? onActivate(open) : undefined}
+              >
+                <div className="experience-top">
+                  <div className="experience-company">
+                    <img src={exp.logo} alt={exp.company} className="company-logo" />
+                    <div>
+                      <p className="company-name">{exp.company}</p>
+                      <h3>{exp.role}</h3>
+                      <p className="experience-domain">{exp.domain}</p>
+                    </div>
+                  </div>
+                  <span className="experience-date">{exp.date}</span>
                 </div>
 
-
-
-
-
-              </div>
-
-
-
-
-
-              <span className="experience-date">
-
-
-
-                Feb 2026 — Jun 2026
-
-
-
-              </span>
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-            <div className="experience-body">
-
-
-
-
-
-              <p>
-
-
-
-                Designed and developed a distributed supervision
-
-                and automated validation platform for Home
-
-                Gateways operating in IPv6 and DS-Lite
-
-                environments.
-
-
-
-              </p>
-
-
-
-
-
-              <ul>
-
-
-
-                <li>
-
-
-
-                  Developed backend services using Python,
-
-                  Flask, SQLite and Socket.IO for test
-
-                  orchestration, agent communication,
-
-                  result management and execution history.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Built PCP packets directly using socket
-
-                  programming, automated protocol execution
-
-                  and decoded network responses.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Automated PCP/UPnP validation including
-
-                  mapping creation, renewal, deletion,
-
-                  lifetime handling, controlled errors and
-
-                  UPnP-to-PCP interworking.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Implemented double validation by comparing
-
-                  protocol-level results with internal Home
-
-                  Gateway state retrieved through Telnet.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Built a regression engine with sequential
-
-                  execution, expected-vs-actual verification,
-
-                  error injection and reproducible test
-
-                  campaigns.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Developed a debug-analysis pipeline combining
-
-                  regex-based classification, sanitization,
-
-                  structured extraction and AI-assisted
-
-                  failure interpretation.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Integrated packet analysis and troubleshooting
-
-                  using Wireshark, tcpdump and Scapy.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Reduced validation and debugging time by
-
-                  approximately 98% across key workflows.
-
-
-
-                </li>
-
-
-
-              </ul>
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-            <div className="experience-tags">
-
-
-
-              <span>Python</span>
-
-              <span>Flask</span>
-
-              <span>SQLite</span>
-
-              <span>Socket.IO</span>
-
-              <span>Socket Programming</span>
-
-              <span>IPv6</span>
-
-              <span>DS-Lite</span>
-
-              <span>PCP</span>
-
-              <span>UPnP</span>
-
-              <span>Linux</span>
-
-              <span>Wireshark</span>
-
-              <span>Scapy</span>
-
-              <span>AI Debugging</span>
-
-
-
-            </div>
-
-
-
-
-
-
-
-            <div className="experience-case-link">
-
-
-
-              View NetSupervision Case Study
-
-
-
-              <FiArrowUpRight />
-
-
-
-            </div>
-
-
-
-
-
-          </article>
-
-
-
-
-
-
-
-          {/* =================================================
-
-              SMART KOKUSAI
-
-          ================================================= */}
-
-
-
-          <article
-
-            className="experience-card experience-card-clickable"
-
-            onClick={openSmartKokusai}
-
-            role="button"
-
-            tabIndex={0}
-
-            aria-label="Open Smart Kokusai CSR case study"
-
-
-
-            onKeyDown={(event) => {
-
-
-
-              if (
-
-                event.key === 'Enter' ||
-
-                event.key === ' '
-
-              ) {
-
-
-
-                event.preventDefault()
-
-
-
-                openSmartKokusai()
-
-
-
-              }
-
-
-
-            }}
-
-          >
-
-
-
-
-
-            <div className="experience-top">
-
-
-
-
-
-              <div className="experience-company">
-
-
-
-
-
-                <img
-
-                  src={smartKokusaiLogo}
-
-                  alt="Smart Kokusai"
-
-                  className="company-logo"
-
-                />
-
-
-
-
-
-                <div>
-
-
-
-                  <p className="company-name">
-
-                    Smart Kokusai
-
-                  </p>
-
-
-
-
-
-                  <h3>
-
-                    Engineering Intern
-
-                  </h3>
-
-
-
-
-
-                  <p className="experience-domain">
-
-
-
-                    Software Development · Data · AI · IoT ·
-
-                    CSR Monitoring
-
-
-
-                  </p>
-
-
-
+                <div className="experience-body">
+                  <p>{exp.summary}</p>
+                  <ul>
+                    {exp.highlights.map(item => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
                 </div>
 
-
-
-
-
-              </div>
-
-
-
-
-
-              <span className="experience-date">
-
-
-
-                Jul 2025 — Sep 2025
-
-
-
-              </span>
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-            <div className="experience-body">
-
-
-
-
-
-              <p>
-
-
-
-                Developed a data-driven CSR monitoring
-
-                platform for collecting, processing and
-
-                visualizing environmental and social company
-
-                KPIs.
-
-
-
-              </p>
-
-
-
-
-
-              <ul>
-
-
-
-
-
-                <li>
-
-
-
-                  Developed REST APIs using FastAPI and
-
-                  PostgreSQL for CSR KPI management,
-
-                  employee-related data, forms,
-
-                  role-based access and dashboard integration.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Built an environmental IoT monitoring
-
-                  pipeline using ESP32, sensors and MQTT.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Used InfluxDB for time-series storage and
-
-                  Grafana for real-time and historical KPI
-
-                  monitoring.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Designed dashboards for water,
-
-                  electricity and environmental indicators
-
-                  with configurable thresholds and alerts.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Integrated OCR-based processing of
-
-                  water and electricity bills to extract
-
-                  structured consumption and billing
-
-                  information.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Developed the social CSR module with
-
-                  employee-related indicators, forms,
-
-                  RBAC and role-specific dashboards.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Used Tinkercad for IoT simulation and
-
-                  prototyping.
-
-
-
-                </li>
-
-
-
-
-
-              </ul>
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-            <div className="experience-tags">
-
-
-
-              <span>Python</span>
-
-              <span>FastAPI</span>
-
-              <span>PostgreSQL</span>
-
-              <span>REST APIs</span>
-
-              <span>ESP32</span>
-
-              <span>MQTT</span>
-
-              <span>InfluxDB</span>
-
-              <span>Grafana</span>
-
-              <span>OCR</span>
-
-              <span>IoT</span>
-
-              <span>RBAC</span>
-
-              <span>Tinkercad</span>
-
-
-
-            </div>
-
-
-
-
-
-            <div className="experience-case-link">
-
-
-
-              View CSR Platform Case Study
-
-
-
-              <FiArrowUpRight />
-
-
-
-            </div>
-
-
-
-
-
-          </article>
-
-
-
-
-
-
-
-          {/* =================================================
-
-              SOFTIFI
-
-          ================================================= */}
-
-
-
-          <article className="experience-card">
-
-
-
-
-
-            <div className="experience-top">
-
-
-
-
-
-              <div className="experience-company">
-
-
-
-
-
-                <img
-
-                  src={softifiLogo}
-
-                  alt="SOFTIFI"
-
-                  className="company-logo"
-
-                />
-
-
-
-
-
-                <div>
-
-
-
-                  <p className="company-name">
-
-                    SOFTIFI
-
-                  </p>
-
-
-
-
-
-                  <h3>
-
-                    IoT Engineering Intern
-
-                  </h3>
-
-
-
-
-
-                  <p className="experience-domain">
-
-
-
-                    Smart Lighting · IoT Conception ·
-
-                    Energy Efficiency
-
-
-
-                  </p>
-
-
-
+                <div className="experience-tags">
+                  {exp.tags.map(tag => (
+                    <span key={tag}>{tag}</span>
+                  ))}
                 </div>
 
-
-
-
-
-              </div>
-
-
-
-
-
-              <span className="experience-date">
-
-
-
-                Jul 2024 — Aug 2024
-
-
-
-              </span>
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-            <div className="experience-body">
-
-
-
-
-
-              <p>
-
-
-
-                Contributed to the conception of a smart
-
-                lighting solution for the Smart Center in
-
-                Zarzis to address excessive electricity usage.
-
-
-
-              </p>
-
-
-
-
-
-              <ul>
-
-
-
-
-
-                <li>
-
-
-
-                  Studied the integration of sensors and
-
-                  connected devices for automated lighting
-
-                  control.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Contributed to defining the IoT architecture
-
-                  and system communication flow.
-
-
-
-                </li>
-
-
-
-
-
-                <li>
-
-
-
-                  Focused on reducing energy consumption
-
-                  through automated lighting management
-
-                  based on usage and environmental conditions.
-
-
-
-                </li>
-
-
-
-
-
-              </ul>
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-            <div className="experience-tags">
-
-
-
-              <span>IoT</span>
-
-              <span>Smart Lighting</span>
-
-              <span>Sensors</span>
-
-              <span>ESP32</span>
-
-              <span>Embedded Systems</span>
-
-              <span>Energy Efficiency</span>
-
-
-
-            </div>
-
-
-
-
-
-
-
-          </article>
-
-
-
-
-
+                <div className="experience-footer">
+                  {open && (
+                    <div className="experience-case-link">
+                      {exp.caseLabel}
+                      <FiArrowUpRight />
+                    </div>
+                  )}
+                  <ResourceLinks links={RESOURCES[exp.id]} />
+                </div>
+              </article>
+            )
+          })}
         </div>
 
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+          
 
 
       </section>
@@ -3172,592 +2514,76 @@ const openNetPilot = () => {
       ===================================================== */}
 
 
+      {/* ================= SKILLS ================= */}
 
-      <section
+      <section id="skills" className="skills-section">
 
-        id="skills"
-
-        className="skills-section"
-
-      >
-
-
-
-        <div className="section-heading">
-
-
-
-          <p className="section-eyebrow">
-
-            Technical Expertise
-
-          </p>
-
-
-
+        <div className="skills-title">
           <h2>
-
-            Skills & Technologies
-
+            <FiCpu />
+            Technical Skills
           </h2>
-
-
-
           <p>
-
-            A multidisciplinary stack across networks,
-
-            software engineering, automation, AI and data.
-
+            Network automation, test engineering, and the tools to build and validate them.
           </p>
-
-
-
         </div>
 
-
-
-
-
-        <div className="skills-bento">
-
-
-
-
-
-          {/* NETWORK */}
-
-
-
-          <article className="skill-bento skill-bento-large">
-
-
-
-            <div className="skill-bento-head">
-
-
-
-              <span>01</span>
-
-
-
-              <p>
-
-                Network & Automation
-
-              </p>
-
-
-
-            </div>
-
-
-
-
-
-            <h3>
-
-              Network Engineering
-
-            </h3>
-
-
-
-
-
-            <div className="skill-tech-grid">
-
-
-
-              <span>IPv4 / IPv6</span>
-
-              <span>TCP / UDP</span>
-
-              <span>DS-Lite</span>
-
-              <span>PCP</span>
-
-              <span>UPnP</span>
-
-              <span>NAT / CGNAT</span>
-
-              <span>Routing</span>
-
-              <span>Socket Programming</span>
-
-              <span>Scapy</span>
-
-              <span>Wireshark</span>
-
-              <span>tcpdump</span>
-
-              <span>GNS3</span>
-
-              <span>Network Automation</span>
-
-
-
-            </div>
-
-
-
-          </article>
-
-
-
-
-
-          {/* AI & DATA */}
-
-
-
-          <article className="skill-bento skill-bento-large">
-
-
-
-            <div className="skill-bento-head">
-
-
-
-              <span>02</span>
-
-
-
-              <p>
-
-                AI & Data
-
-              </p>
-
-
-
-            </div>
-
-
-
-
-
-            <h3>
-
-              Data Science & AI
-
-            </h3>
-
-
-
-
-
-            <div className="skill-tech-grid">
-
-
-
-              <span>Python</span>
-
-              <span>Pandas</span>
-
-              <span>NumPy</span>
-
-              <span>Scikit-learn</span>
-
-              <span>TensorFlow</span>
-
-              <span>Keras</span>
-
-              <span>Deep Learning</span>
-
-              <span>CNN</span>
-
-              <span>LSTM</span>
-
-              <span>NLP</span>
-
-              <span>Computer Vision</span>
-
-              <span>Data Preprocessing</span>
-
-              <span>Model Evaluation</span>
-
-
-
-            </div>
-
-
-
-          </article>
-
-
-
-
-
-          {/* BACKEND */}
-
-
-
-          <article className="skill-bento skill-bento-wide">
-
-
-
-            <div className="skill-bento-head">
-
-
-
-              <span>03</span>
-
-
-
-              <p>
-
-                Software Engineering
-
-              </p>
-
-
-
-            </div>
-
-
-
-
-
-            <h3>
-
-              Backend & Software
-
-            </h3>
-
-
-
-
-
-            <div className="skill-tech-grid">
-
-
-
-              <span>Python</span>
-
-              <span>FastAPI</span>
-
-              <span>Flask</span>
-
-              <span>REST APIs</span>
-
-              <span>Socket.IO</span>
-
-              <span>WebSockets</span>
-
-              <span>SQLAlchemy</span>
-
-              <span>Linux</span>
-
-
-
-            </div>
-
-
-
-          </article>
-
-
-
-
-
-          {/* DEVOPS / QA */}
-
-
-
-          <article className="skill-bento">
-
-
-
-            <div className="skill-bento-head">
-
-
-
-              <span>04</span>
-
-
-
-              <p>
-
-                QA & DevOps
-
-              </p>
-
-
-
-            </div>
-
-
-
-
-
-            <h3>
-
-              Engineering Tools
-
-            </h3>
-
-
-
-
-
-            <div className="skill-tech-grid">
-
-
-
-              <span>Docker</span>
-
-              <span>Git</span>
-
-              <span>GitLab</span>
-
-              <span>Postman</span>
-
-              <span>Jira</span>
-
-              <span>Regression Testing</span>
-
-              <span>API Testing</span>
-
-              <span>Debugging</span>
-
-              <span>Agile</span>
-
-
-
-            </div>
-
-
-
-          </article>
-
-
-
-
-
-          {/* DATA INFRA */}
-
-
-
-          <article className="skill-bento">
-
-
-
-            <div className="skill-bento-head">
-
-
-
-              <span>05</span>
-
-
-
-              <p>
-
-                Data Infrastructure
-
-              </p>
-
-
-
-            </div>
-
-
-
-
-
-            <h3>
-
-              Databases & Monitoring
-
-            </h3>
-
-
-
-
-
-            <div className="skill-tech-grid">
-
-
-
-              <span>PostgreSQL</span>
-
-              <span>SQLite</span>
-
-              <span>InfluxDB</span>
-
-              <span>SQL</span>
-
-              <span>Grafana</span>
-
-              <span>Data Modeling</span>
-
-              <span>KPI Monitoring</span>
-
-
-
-            </div>
-
-
-
-          </article>
-
-
-
-
-
-          {/* IOT */}
-
-
-
-          <article className="skill-bento">
-
-
-
-            <div className="skill-bento-head">
-
-
-
-              <span>06</span>
-
-
-
-              <p>
-
-                Connected Systems
-
-              </p>
-
-
-
-            </div>
-
-
-
-
-
-            <h3>
-
-              IoT & Edge
-
-            </h3>
-
-
-
-
-
-            <div className="skill-tech-grid">
-
-
-
-              <span>ESP32</span>
-
-              <span>MQTT</span>
-
-              <span>Sensors</span>
-
-              <span>Tinkercad</span>
-
-              <span>IoT Architecture</span>
-
-              <span>Edge AI</span>
-
-
-
-            </div>
-
-
-
-          </article>
-
-
-
-
-
+        {/* Bande défilante : la liste est dupliquée pour une boucle sans coupure */}
+        <div className="skills-marquee" aria-hidden="true">
+          <div className="skills-marquee-track">
+            {[...MARQUEE_SKILLS, ...MARQUEE_SKILLS].map((skill, index) => {
+              const Icon = skill.icon
+              return (
+                <span className="skills-pill" key={`${skill.name}-${index}`}>
+                  <Icon style={{ color: skill.color }} />
+                  {skill.name}
+                </span>
+              )
+            })}
+          </div>
         </div>
 
+        <div className="skills-showcase">
+          {SKILL_GROUPS.map(group => {
+            const GroupIcon = group.icon
+            return (
+              <article className="skills-card" key={group.title}>
+                <header className="skills-card-head">
+                  <span className="skills-card-icon">
+                    <GroupIcon />
+                  </span>
+                  <h3>{group.title}</h3>
+                </header>
 
-
-      </section>
-
-
-
-
-
-
-
-      {CERTIFICATIONS.length > 0 && (
-
-      <section id="certifications" className="skills-section">
-
-        <div className="section-heading">
-
-          <p className="section-eyebrow">Credentials</p>
-
-          <h2>Certifications</h2>
-
-        </div>
-
-        <div className="cert-grid">
-
-          {CERTIFICATIONS.map(c => (
-
-            <article key={c.name} className="skill-bento">
-
-              <p className="project-subtitle">{c.issuer} · {c.year}</p>
-
-              <h3>{c.name}</h3>
-
-              {c.url && (
-
-                <a href={c.url} target="\_blank" rel="noreferrer" className="project-link">
-
-                  Verify <FiArrowUpRight />
-
-                </a>
-
-              )}
-
-            </article>
-
-          ))}
-
+                <div className="skills-tiles">
+                  {group.items.map(skill => {
+                    const Icon = skill.icon
+                    return (
+                      <div className="skills-tile" key={skill.name}>
+                        <Icon style={{ color: skill.color }} />
+                        <span>{skill.name}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </article>
+            )
+          })}
         </div>
 
       </section>
-
-    )}
-
+            
 
 
-    <section id="open-to" className="skills-section">
-
-      <div className="section-heading">
-
-        <p className="section-eyebrow">Open to</p>
-
-        <h2>What I'm looking for</h2>
-
-      </div>
-
-      <div className="cert-grid">
-
-        <article className="skill-bento"><h3>Roles</h3>
-
-          <p>Network Automation · QA/Test Automation · DevOps · Python Backend</p></article>
-
-        <article className="skill-bento"><h3>Location</h3>
-
-          <p>Tunisia · France · Europe · Remote</p></article>
-
-        <article className="skill-bento"><h3>Availability</h3>
-
-          <p>From [date]</p></article>
-
-      </div>
-
-    </section>
 
 
+
+
+
+     <CertificationsCarousel />
+
+
+      
 
 
 
@@ -3801,7 +2627,7 @@ const openNetPilot = () => {
 
       </footer>
 
-
+        <ContactSection />
 
 
 

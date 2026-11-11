@@ -7,7 +7,18 @@
 
 html,
 body,
+html { font-size: 17px; }          /* agrandit tout le site d'un coup */
+
 #root {
   width: 100%;
-  min-height: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+body {
+  margin: 0;
+  display: block;                  /* le template Vite met display:flex + place-items:center */
+  min-width: 320px;
 }
