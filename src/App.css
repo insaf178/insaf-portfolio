@@ -5628,3 +5628,132 @@ html { font-size: 18px; }
   .experience-card { padding: 22px; }
   .experience-footer { align-items: flex-start; flex-direction: column; }
 }
+
+/* =========================================================
+   PUBLICATION — LIGHT THEME FINAL
+========================================================= */
+
+.publication-section .section-heading h2 {
+  color: var(--text);
+}
+
+.publication-section .section-heading > p:last-child {
+  color: var(--text-soft);
+}
+
+/* MAIN CARD */
+
+.publication-card {
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f7fbff 100%
+    );
+
+  border: 1px solid var(--border);
+
+  box-shadow:
+    0 18px 50px rgba(15, 23, 42, 0.07);
+}
+
+.publication-card:hover {
+  transform: translateY(-4px);
+
+  border-color:
+    rgba(37, 99, 235, 0.35);
+
+  box-shadow:
+    0 24px 60px rgba(37, 99, 235, 0.10);
+}
+
+/* STATUS */
+
+.publication-status {
+  color: var(--blue);
+
+  background: #eff6ff;
+
+  border:
+    1px solid rgba(37, 99, 235, 0.18);
+}
+
+/* TITLE */
+
+.publication-card h3 {
+  color: var(--text);
+}
+
+/* YEAR */
+
+.publication-year {
+  color: var(--muted);
+}
+
+/* JOURNAL */
+
+.publication-journal {
+  color: var(--blue);
+}
+
+.publication-type {
+  color: var(--muted);
+}
+
+/* DESCRIPTION */
+
+.publication-description {
+  color: var(--text-soft);
+}
+
+/* 3 INFO BOXES */
+
+.publication-highlights > div {
+  background: #f8fbff;
+
+  border: 1px solid var(--border);
+}
+
+.publication-highlights span {
+  color: #94a3b8;
+}
+
+.publication-highlights strong {
+  color: #334155;
+}
+
+/* TAGS */
+
+.publication-tags span {
+  background: #eef4fa;
+
+  border:
+    1px solid #dce8f5;
+
+  color: #475569;
+}
+
+/* GITHUB BUTTON */
+
+.publication-secondary-link {
+  color: var(--blue);
+
+  background: #eff6ff;
+
+  border:
+    1px solid rgba(37, 99, 235, 0.20);
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.publication-secondary-link:hover {
+  background: #dbeafe;
+
+  border-color:
+    rgba(37, 99, 235, 0.40);
+
+  transform: translateY(-2px);
+}
