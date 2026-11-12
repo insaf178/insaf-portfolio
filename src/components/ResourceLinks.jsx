@@ -38,11 +38,11 @@ export function DemoVideo({ src, title }) {
 
   return (
     <div className="case-video">
-      <iframe
+      <video
         src={src}
         title={title}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
-        allowFullScreen
+        controls
+        playsInline
       />
     </div>
   )
